@@ -4,9 +4,9 @@
  * */
 const createRequest = (options = {}) => {
     const responseXHR = new XMLHttpRequest();
-    let url = 'http://localhost:8000/' + options.url;
+    let url = 'http://localhost:8000' + options.url;
 
-    responseXHR.responseType = 'json';
+    // responseXHR.responseType = 'json';
 
     responseXHR.onreadystatechange = function () {
         if (responseXHR.readyState === 4) {
@@ -15,6 +15,7 @@ const createRequest = (options = {}) => {
             } else {
                 options.callback(responseXHR.response['error'], null);
             }
+            console.log(responseXHR);
         }
     };
 
