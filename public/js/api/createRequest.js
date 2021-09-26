@@ -12,10 +12,11 @@ const createRequest = (options = {}) => {
         if (responseXHR.readyState === 4) {
             if (responseXHR.response['success']) {
                 options.callback(null, responseXHR.response);
+                console.log(this.responseText + '   ====1');
             } else {
                 options.callback(responseXHR.response['error'], null);
+                console.log(this.responseText + '   ====2');
             }
-            console.log(responseXHR);
         }
     };
 
