@@ -37,7 +37,7 @@ class Modal {
      * Закрывает текущее окно (Modal.close())
      * */
     onClose(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
         this.close();
     }
@@ -52,6 +52,6 @@ class Modal {
      * Закрывает окно: удаляет CSS-свойство display
      * */
     close() {
-        delete this.element.style['display'];
+        this.element.style.display = 'none';
     }
 }
