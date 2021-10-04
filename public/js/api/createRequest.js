@@ -3,27 +3,50 @@
  * на сервер.
  * */
 const createRequest = (options = {}) => {
-    const responseXHR = new XMLHttpRequest();
-    let url = 'http://localhost:8000' + options.url;
+    const xhr = new XMLHttpRequest();
+    let method = options.method;
+    let url = 'http://localhost:8000';
+    let formData;
 
-    // responseXHR.responseType = 'json';
+    if (method === 'GET') {
+        if (options.data) {
+            let urlOption = Object.entries(options.data)
+                .map(([key, value]) => `${key}=${value}`)
+                .join('&');
+            url += `${options.url}?${urlOption}`;
+        }
+    } else {
+        url += options.url;
 
-    responseXHR.onreadystatechange = function () {
-        if (responseXHR.readyState === 4) {
-            if (responseXHR.response['success']) {
-                options.callback(null, responseXHR.response);
-                console.log(this.responseText + '   ====1');
+        formData = new FormData();
+
+        for (let item in options.data) {
+            formData.append(item, options.data[item]);
+        }
+    }
+
+    xhr.addEventListener('readystatechange', function () {
+        if (xhr.readyState === 4) {
+            let parseResp = JSON.parse(xhr.response);
+
+            if (parseResp['success']) {
+                options.callback(null, parseResp);
             } else {
-                options.callback(responseXHR.response['error'], null);
-                console.log(this.responseText + '   ====2');
+                options.callback(parseResp['error'], null);
             }
         }
-    };
+    });
 
     try {
-        responseXHR.open(options.method, url);
-        responseXHR.send(options.data);
-    } catch (err) {
-        options.callback(new Error(err.message), null);
+        xhr.open(method, url);
+
+        if (formData !== undefined) {
+            xhr.send(formData);
+        } else {
+            xhr.send();
+        }
+    } catch (e) {
+        console.log(e);
+        options.callback(e);
     }
 };
