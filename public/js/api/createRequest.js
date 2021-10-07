@@ -8,7 +8,7 @@ const createRequest = (options = {}) => {
     let url = 'http://localhost:8000';
     let formData;
 
-    if (method === 'GET') {
+    if (options.method === 'GET' && options.data) {
         if (options.data) {
             let urlOption = Object.entries(options.data)
                 .map(([key, value]) => `${key}=${value}`)
@@ -38,7 +38,7 @@ const createRequest = (options = {}) => {
     });
 
     try {
-        xhr.open(method, url);
+        xhr.open(options.method, url);
 
         if (formData !== undefined) {
             xhr.send(formData);

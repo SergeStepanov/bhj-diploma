@@ -18,7 +18,7 @@ class RegisterForm extends AsyncForm {
                 App.modals['register'].close();
             } else {
                 console.error(err);
-                // alert(err);
+                alert(err);
             }
         });
     }

@@ -60,11 +60,11 @@ class TransactionsPage {
             if (textConfirm) {
                 const data = { id: this.lastOptions.account_id };
                 Account.remove(data, (err, response) => {
-                    if (response) {
+                    if (response.success) {
                         App.updateWidgets();
+                        this.clear();
                     } else alert(err);
                 });
-                this.clear();
             }
         }
     }
@@ -81,14 +81,13 @@ class TransactionsPage {
             let textConfirm = confirm(
                 'Вы действительно хотите удалить эту транзакцию?'
             );
+            const data = { id };
 
             if (textConfirm) {
-                Transaction.remove(id, {}, (err, response) => {
-                    if (!err) {
-                        if (response.success) {
-                            App.update();
-                        }
-                    }
+                Transaction.remove(data, (err, response) => {
+                    if (response.success) {
+                        App.update();
+                    } else alert(err);
                 });
             }
         }

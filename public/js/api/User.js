@@ -5,13 +5,11 @@
  * */
 class User {
     static URL = '/user';
-    // id = '';
     /**
      * Устанавливает текущего пользователя в
      * локальном хранилище.
      * */
     static setCurrent(user) {
-        // this.id = user.id;
         localStorage.setItem('user', JSON.stringify(user));
     }
 
@@ -30,6 +28,7 @@ class User {
     static current() {
         if (localStorage.getItem(['user']))
             return JSON.parse(localStorage.getItem(['user']));
+        else return undefined;
     }
 
     /**
